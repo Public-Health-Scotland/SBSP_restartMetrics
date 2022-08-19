@@ -32,9 +32,6 @@ report4 <- "27062022"
 #report5 <- "02052022" # Comment out if only four folders this month
 
 ## Set month
-# Numeric value for target month
-MM <- 6
-YYYY <- 2022
 # Define cut off date (first of the month you are updating data for)
 cut_off_date <- "2022-06-01"
 
@@ -44,22 +41,6 @@ cut_off_date <- "2022-06-01"
 ## and outputs combined data from centres
 import_folder <- function(folder, report) {
   
-  # Write file paths
-  # Using readxl
-  # eos_path <- (paste0(root, "/Reports ", folder,
-  #                     "/EastScotland_Report_", report, ".xls"))
-  # neos_path <- (paste0(root, "/Reports ", folder,
-  #                      "/NorthEastScotland_Report_", report, ".xls"))
-  # nos_path <- (paste0(root, "/Reports ", folder,
-  #                     "/NorthScotland_Report_", report, ".xls"))
-  # seos_path <- (paste0(root, "/Reports ", folder,
-  #                      "/SouthEastScotland_Report_", report, ".xls"))
-  # swos_path <- (paste0(root, "/Reports ", folder,
-  #                      "/SouthWestScotland_Report_", report, ".xls"))
-  # wos_path <- (paste0(root, "/Reports ", folder,
-  #                     "/WestScotland_Report_", report, ".xls"))
-
-  # Use this section if readxl not working and importing .csv files
   eos_path <- (paste0(root, "/Reports ", folder,
                       "/EastScotland_Report_", report, ".csv"))
   neos_path <- (paste0(root, "/Reports ", folder,
@@ -73,16 +54,6 @@ import_folder <- function(folder, report) {
   wos_path <- (paste0(root, "/Reports ", folder,
                       "/WestScotland_Report_", report, ".csv"))
   
-  # Import individual centre reports
-  # Using readxl
-  # eos <- read_excel(eos_path)
-  # neos <- read_excel(neos_path)
-  # nos <- read_excel(nos_path)
-  # seos <- read_excel(seos_path)
-  # swos <- read_excel(swos_path)
-  # wos <- read_excel(wos_path)
-
-  # Use this section if readxl not working and importing .csv files
   eos <- read.csv(eos_path)
   neos <- read.csv(neos_path)
   nos <- read.csv(nos_path)
