@@ -1,17 +1,13 @@
 ##########################################################
-# x_R079_process.R
+# x_scratchpad1.R
 # Karen Hotopp
 # 24/06/2022
 # Script x1 of 2
 # Checking downloaded reports to weekly sent reports covering 
-# June 2022
+# month of June 2022
 # Written/run on R Studio Server
 # R version 3.6.1
 ##########################################################
-
-##!! Replace as main report processing pathway once numbers discrepancy issue
-##!! is resolved!
-
 
 #### 1: Housekeeping ####
 # Packages
@@ -29,7 +25,7 @@ wd <-paste0("/PHI_conf/CancerGroup1/Topics/BreastScreening/Investigations",
             "/20201203-Breast-Screening-NSOB-Restart-Metrics")
 # setwd(wd)
 # source(paste0(wd, "/Code/0_housekeeping.R"))
-source(here("code","0_housekeeping.R"))
+source(here("SBSP_restartMetrics/code","0_housekeeping.R"))
 
 rm(folder1, folder2, folder3, folder4,
    report1, report2, report3, report4)
@@ -161,6 +157,6 @@ nrow(distinct(full_db))
 
 #### 5: Write archive data ####
 ## Re-save as full database, from 2020-08-03 to current
-saveRDS(full_db, paste0(wd, "/Temp/SBSS Appts Report_database_KH.rds"))
+saveRDS(full_db, paste0(wd, "/Temp/SBSS Appts Report_database.rds"))
 
 

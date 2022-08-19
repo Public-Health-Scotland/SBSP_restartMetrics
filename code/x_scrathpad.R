@@ -1,5 +1,5 @@
 ##########################################################
-# x_compare_reports.R
+# x_scratchpad.R
 # Karen Hotopp
 # 24/06/2022
 # Script 1 of 2
@@ -7,9 +7,6 @@
 # Written/run on R Studio Server
 # R version 3.6.1
 ##########################################################
-
-##!! To delete once numbers discrepancy is resolved!
-
 
 ## Packages
 library(readxl)
