@@ -12,6 +12,7 @@
 #### 1: Housekeeping ####
 # Packages
 library(readxl)
+library(here)
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -22,8 +23,9 @@ library(tidylog)
 rm(list = ls())
 wd <-paste0("/PHI_conf/CancerGroup1/Topics/BreastScreening/Investigations",
             "/20201203-Breast-Screening-NSOB-Restart-Metrics")
-setwd(wd)
-source(paste0(wd, "/Code/0_housekeeping.R"))
+# setwd(wd)
+# source(paste0(wd, "/Code/0_housekeeping.R"))
+source(here("SBSP_restartMetrics/code","0_housekeeping.R"))
 
 rm(folder1, folder2, folder3, folder4,
    report1, report2, report3, report4)
@@ -86,11 +88,11 @@ full_db <- full_db %>%
 
 
 
-full_db <- bind_rows(full_db, combined) %>%
-  distinct(WorklistID,
-           # GC - added .keep_all = TRUE
-           .keep_all = TRUE)
-
+full_db <- bind_rows(full_db, combined) #%>%
+#   distinct(WorklistID,
+#            # GC - added .keep_all = TRUE
+#            .keep_all = TRUE)
+length(unique(full_db$WorklistID))
 
 ## Define start date for each month -- this is just 1st of the month
 full_db <- full_db %>%
@@ -135,6 +137,8 @@ View(full)
 
 # GC - checks for duplicates/missing dates
 # Look at full database via histogram and table
+range(full_db$WorklistDate)
+
 ggplot(full_db, aes(x = WorklistDate)) +
   geom_histogram()
 
