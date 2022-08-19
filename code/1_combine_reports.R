@@ -21,8 +21,8 @@ library(tidylog)
 
 # Pathways
 rm(list = ls())
-# wd <-paste0("/PHI_conf/CancerGroup1/Topics/BreastScreening/Investigations",
-#              "/20201203-Breast-Screening-NSOB-Restart-Metrics")
+wd <-paste0("/PHI_conf/CancerGroup1/Topics/BreastScreening/Investigations",
+             "/20201203-Breast-Screening-NSOB-Restart-Metrics")
 #setwd(wd)
 #source(paste0(wd, "/Code/0_housekeeping.R"))
 source(here("SBSP_restartMetrics/code","0_housekeeping.R"))
