@@ -3,8 +3,8 @@
 # Karen Hotopp
 # 24/06/2022
 # Script x1 of 2
-# Checking downloaded reports to weekly sent reports covering 
-# June 2022
+# Processing R079 reports to create monthly summaries 
+# Updated August 2022
 # Written/run on R Studio Server
 # R version 3.6.1
 ##########################################################
