@@ -28,12 +28,6 @@ root <-paste0("/PHI_conf/CancerGroup1/Topics/BreastScreening/Investigations",
               "/Weekly Appts Reports/Invite Screen Reports")
 
 
-## Set month
-# Define cut off date (first of the month you are updating data for)
-cut_off_date <- "2021-08-01"
-
-
-
 #### 2: Import data ####
 ## Call in whole month file (downloaded R079)
 combined <- read.csv(paste0(root, "/Scotland_R079_202108.csv"))
