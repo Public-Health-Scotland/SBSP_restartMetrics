@@ -33,20 +33,43 @@ today <- Sys.Date()
 brest <- read_rds(paste0(wd, "/Output/SBSS_R079_historic_2022-08-26.rds"))
 
 ## Define start date for each month -- this is just 1st of the month
-brest <- brest %>%
-  #arrange(WorklistDate, BSC) %>%
+brest %<>%
   mutate(start_date = floor_date(as_date(WorklistDate), "month")) %>% 
   glimpse()
 
 
 #### 3: Set up counts ####
+## Create month counts by centres
+# There are 55 months, so each centre should have 55 records
+full_db <- brest %>%
+  group_by(BSCName, start_date) %>%
+  summarize(Allocated = sum(Allocated),
+            Attended = sum(Attended)) %>%
+  ungroup
+
+full_db_scot <- brest %>%
+  group_by(start_date) %>%
+  summarize(Allocated = sum(Allocated),
+            Attended = sum(Attended)) %>%
+  mutate(BSCName = "Scotland", .before = start_date)
+
+full_db <- bind_rows(full_db, full_db_scot)
+View(full_db)
 
 
+#### What are the missing months?
+east <- brest[brest$BSCName == "East of Scotland",]
+noreast <- brest[brest$BSCName == "North East of Scotland",]
+soeast <- brest[brest$BSCName == "South East of Scotland",]
+sowest <- brest[brest$BSCName == "South West of Scotland",]
+west <- brest[brest$BSCName == "West of Scotland",]
 
-
-
-
-
+table(east$start_date) # missing May/June 2020
+table(noreast$start_date) # missing June/July 2020
+table(soeast$start_date) # missing May/June/July 2020
+table(sowest$start_date) # missing July 2020
+table(west$start_date) # missing May/June 2020
+## These centres have no records for the months above (COVID-19 program stop)
 
 
 
