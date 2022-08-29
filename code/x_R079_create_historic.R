@@ -13,7 +13,6 @@
 
 #### 1: Housekeeping ####
 ## Packages
-library(readr)
 library(dplyr)
 library(magrittr)
 library(lubridate)
@@ -25,12 +24,11 @@ library(tidylog)
 rm(list = ls())
 wd <-paste0("/PHI_conf/CancerGroup1/Topics/BreastScreening/Investigations",
             "/20201203-Breast-Screening-NSOB-Restart-Metrics")
-
-today <- Sys.Date()
+source(paste0(wd, "/SBSP_restartMetrics/code/0_housekeeping.R"))
 
 
 #### 2: Import data ####
-brest <- read_rds(paste0(wd, "/Output/SBSS_R079_historic_2022-08-26.rds"))
+brest <- readRDS(paste0(wd, "/Output/SBSS_R079_historic_2022-08-26.rds"))
 
 ## Define start date for each month -- this is just 1st of the month
 brest %<>%
@@ -58,24 +56,23 @@ full_db <- bind_rows(full_db, full_db_scot)
 View(full_db)
 
 
-# #### What are the missing months?
-# table(brest$BSCName)
-# east <- brest[brest$BSCName == "East of Scotland",]
-# noreast <- brest[brest$BSCName == "North East of Scotland",]
-# north <- brest[brest$BSCName == "North of Scotland",]
-# soeast <- brest[brest$BSCName == "South East of Scotland",]
-# sowest <- brest[brest$BSCName == "South West of Scotland",]
-# west <- brest[brest$BSCName == "West of Scotland",]
-# 
-# table(east$start_date) # missing May/June 2020
-# table(noreast$start_date) # missing June/July 2020
-# table(soeast$start_date) # missing May/June/July 2020
-# table(sowest$start_date) # missing July 2020
-# table(west$start_date) # missing May/June 2020
-# # These centres have no records for the months above (COVID-19 program stop)
-# 
-# rm(east, noreast, soeast, sowest, west)
-# 
+#### What are the missing months?
+table(brest$BSCName)
+east <- brest[brest$BSCName == "East of Scotland",]
+noreast <- brest[brest$BSCName == "North East of Scotland",]
+north <- brest[brest$BSCName == "North of Scotland",]
+soeast <- brest[brest$BSCName == "South East of Scotland",]
+sowest <- brest[brest$BSCName == "South West of Scotland",]
+west <- brest[brest$BSCName == "West of Scotland",]
+
+table(east$start_date) # missing May/June 2020
+table(noreast$start_date) # missing June/July 2020
+table(soeast$start_date) # missing May/June/July 2020
+table(sowest$start_date) # missing July 2020
+table(west$start_date) # missing May/June 2020
+# These centres have no records for the months above (COVID-19 program stop)
+
+rm(east, noreast, soeast, sowest, west)
 
 
 ## Restructure db
@@ -98,6 +95,7 @@ full_db %<>%
 allocated <- full_db %>%
   select(BSCName, month, Allocated) %>% 
   pivot_wider(names_from = month, values_from = Allocated) %>% 
+  mutate(appt_type = "allocated", .after = BSCName) %>% 
   relocate(`May-2020`, `Jun-2020`, .after = `Apr-2020`) %>% 
   glimpse()
 # replce all NAs with 0
@@ -107,6 +105,7 @@ allocated[is.na(allocated)] <- 0
 attended <- full_db %>%
   select(BSCName, month, Attended) %>% 
   pivot_wider(names_from = month, values_from = Attended) %>% 
+  mutate(appt_type = "attended", .after = BSCName) %>% 
   relocate(`May-2020`, `Jun-2020`, .after = `Apr-2020`) %>% 
 glimpse()
 # replce all NAs with 0
@@ -126,9 +125,9 @@ sum <- full_db %>%
 
 ## Combine counts and totals
 sum_all <- select(sum, BSCName, total_alloc) %>% 
-  rename(total = total_alloc)
+  rename(Total = total_alloc)
 sum_att <- select(sum, BSCName, total_attend) %>% 
-  rename(total = total_attend)
+  rename(Total = total_attend)
 
 allocated <- left_join(allocated, sum_all)
 attended <- left_join(attended, sum_att)
@@ -139,5 +138,5 @@ attended <- left_join(attended, sum_att)
 full_metrics <- bind_rows(allocated, attended)
 
 ## Save
-saveRDS(full_metrics, paste0(wd, "/Output/SBSS_R079_historic_", today, ".rds"))
+saveRDS(full_metrics, paste0(wd, "/Output/SBSS_R079_historic.rds"))
 
