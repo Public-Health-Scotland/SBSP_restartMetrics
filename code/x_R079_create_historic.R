@@ -2,10 +2,10 @@
 # x_R079_create_historic.R
 # Karen Hotopp
 # 26/08/2022
-# Script x1 of 2
-# Call in historic R079 RDS file and create counts of appointments
-# allocated v attended
-# Completed data file starts at Jan 2018
+# Script 1 of 2
+# Call in new monthly R079 .csv file, add to historic R079 database,
+# create counts of allocated v attended appointments, and write
+# to Excel file.
 # Written/run on R Studio Server
 # R version 3.6.1
 ##########################################################
@@ -28,7 +28,7 @@ source(paste0(wd, "/SBSP_restartMetrics/code/0_housekeeping.R"))
 
 
 #### 2: Import data ####
-brest <- readRDS(paste0(wd, "/Output/SBSS_R079_historic_2022-08-26.rds"))
+report <- read_csv(paste0(root, file_name, YYMM, ".csv"))
 
 ## Define start date for each month -- this is just 1st of the month
 brest %<>%
