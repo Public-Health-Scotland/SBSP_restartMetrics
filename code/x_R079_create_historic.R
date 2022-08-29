@@ -58,6 +58,7 @@ View(full_db)
 
 
 #### What are the missing months?
+table(brest$BSCName)
 east <- brest[brest$BSCName == "East of Scotland",]
 noreast <- brest[brest$BSCName == "North East of Scotland",]
 soeast <- brest[brest$BSCName == "South East of Scotland",]
@@ -69,9 +70,9 @@ table(noreast$start_date) # missing June/July 2020
 table(soeast$start_date) # missing May/June/July 2020
 table(sowest$start_date) # missing July 2020
 table(west$start_date) # missing May/June 2020
-## These centres have no records for the months above (COVID-19 program stop)
+# These centres have no records for the months above (COVID-19 program stop)
 
-
+## Add this back in to the counts
 
 
 
