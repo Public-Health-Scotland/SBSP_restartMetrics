@@ -16,7 +16,6 @@
 #### 1: Housekeeping ####
 # Packages
 library(readxl)
-library(here)
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -31,13 +30,10 @@ wd <-paste0("/PHI_conf/CancerGroup1/Topics/BreastScreening/Investigations",
 # source(paste0(wd, "/Code/0_housekeeping.R"))
 source(here("code","0_housekeeping.R"))
 
-rm(folder1, folder2, folder3, folder4,
-   report1, report2, report3, report4)
-
 
 #### 2: Import data ####
 ## Call in whole month file (downloaded R079)
-combined <- read.csv(paste0(root, "/Scotland_R079_202206.csv"))
+combined <- readRDS(paste0(root, "/Scotland_R079_202206.csv"))
 
 
 #### 3: Process data ####
