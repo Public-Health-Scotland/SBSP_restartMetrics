@@ -21,10 +21,6 @@ YYMM <- 202207 # current year and month to add to data
 today <- Sys.Date()
 
 
-## Set month
-# Define cut off date (first of the month you are updating data for)
-cut_off_date <- "2022-06-01"
-
 
 
 
