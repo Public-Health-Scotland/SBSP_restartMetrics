@@ -18,6 +18,7 @@ library(dplyr)
 library(magrittr)
 library(lubridate)
 library(forcats)
+library(ggplot2)
 library(tidylog)
 library(openxlsx)
 
@@ -48,11 +49,12 @@ current %<>%
 new_db <- bind_rows(full_db, current) %>% 
   arrange(WorklistDate, BSCName)
 
-table(new_db$start_date)
+## Check for duplication
+table(new_db$start_date) # current month should match `current` obs.
 ggplot(new_db, aes(x = WorklistDate)) +
   geom_histogram()
 
-# Check any dates that look odd from visual inspection
+## Check any dates that look odd from visual inspection
 date_check <- new_db %>%
   count(WorklistDate)
 
@@ -148,7 +150,7 @@ full_metrics <- bind_rows(allocated, attended)
 saveRDS(full_metrics, paste0(wd, "/Output/SBSS_R079_counts.rds"))
 
 rm(allocated, attended, counts, counts_scot, current, 
-   full_db, new_db, sum, sum_all, sum_att)
+   full_db, new_db, sum, sum_all, sum_att, date_check)
 
 
 #### 4: Set up data for Excel ####
@@ -218,14 +220,14 @@ writeData(wb, sheet = "Br - Attendances", allocated,
 writeData(wb, sheet = "Br - Attendances", attended, 
           startCol = "B", startRow = 22, colNames = T)
 
-### Historical average (2018/19) ---
+# ### Historical average (2018/19) ---
 # uncomment below to add historic loop months to historic average (2018/19)
 # writeData(wb, sheet = "Br - Attendances", hist1819_active, 
 #           startCol = "Z", startRow = 7, colNames = T)
 
+
 writeData(wb, sheet = "Br - Attendances", paste0("Updated ", today),
           startCol = "A", startRow = 42)
-
 
 writeData(wb, sheet = "Br - Historical Attendances", paste0("Updated ", today),
           startCol = "A", startRow = 26)
