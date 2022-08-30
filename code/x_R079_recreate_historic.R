@@ -2,7 +2,7 @@
 # x_R079_recreate_historic.R
 # Karen Hotopp
 # 26/08/2022
-# Script x1 of ?
+# Script x of ?
 # Pulling in historic R079 reports to create a complete historic file
 # that uses downloaded R079 reports (vs weekly sent reports)
 # Completed data file starts at Jan 2018
@@ -297,7 +297,6 @@ library(tidylog)
 rm(list = ls())
 wd <-paste0("/PHI_conf/CancerGroup1/Topics/BreastScreening/Investigations",
             "/20201203-Breast-Screening-NSOB-Restart-Metrics")
-source(paste0(wd, "/SBSP_restartMetrics/code/0_housekeeping.R"))
 
 
 #### 2: Import data ####
