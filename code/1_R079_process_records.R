@@ -21,20 +21,19 @@ library(forcats)
 library(ggplot2)
 library(tidylog)
 library(openxlsx)
+library(here)
 
 
 ## Pathways
 rm(list = ls())
-wd <-paste0("/PHI_conf/CancerGroup1/Topics/BreastScreening/Investigations",
-            "/20201203-Breast-Screening-NSOB-Restart-Metrics")
-source(paste0(wd, "/SBSP_restartMetrics/code/0_housekeeping.R"))
+source(here("code/0_housekeeping.R"))
 
 
 #### 2: Import data ####
 ## Full records (Jan 2018 - most recent month)
-full_db <- read_rds(paste0(wd, "/Output/SBSS_R079_complete.rds"))
+full_db <- read_rds(paste0(proj_folder,"/Output/SBSS_R079_complete.rds"))
 ## current month's records
-current <- read_csv(paste0(root, file_name, YYMM, ".csv"))
+current <- read_csv(paste0(r079_path, file_name, YYMM, ".csv"))
 
 ## Define start date for each month -- this is just 1st of the month
 current %<>%
@@ -63,7 +62,7 @@ ggplot(date_check, aes(x = WorklistDate)) +
 
 
 ## Write out complete db for a back-up copy
-write_rds(new_db, paste0(wd, "/Output/SBSS_R079_complete.rds"))
+write_rds(new_db, paste0(proj_folder, "/Output/SBSS_R079_complete.rds"))
 
 
 #### 3: Set up counts ####
