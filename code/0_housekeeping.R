@@ -10,14 +10,15 @@
 ##########################################################
 
 #### Pathways ####
-wd <-paste0("/PHI_conf/CancerGroup1/Topics/BreastScreening/Investigations",
-            "/20201203-Breast-Screening-NSOB-Restart-Metrics")
-root <- paste0("/PHI_conf/CancerGroup1/Topics/BreastScreening/Investigations",
-               "/20201203-Breast-Screening-NSOB-Restart-Metrics",
-               "/Weekly Appts Reports/Invite Screen Reports/R079")
+proj_folder <- paste0("/PHI_conf/CancerGroup1/Topics/BreastScreening/Investigations",
+                      "/20201203-Breast-Screening-NSOB-Restart-Metrics/")
+
+r079_path <- paste0("/PHI_conf/CancerGroup1/Topics/BreastScreening/Investigations",
+                    "/20201203-Breast-Screening-NSOB-Restart-Metrics",
+                    "/Weekly Appts Reports/Invite Screen Reports/R079/")
 
 file_name <- "/Scotland_R079_"
-YYMM <- 202207 # current year and month to add to data
+YYMM <- 202208 # current year and month to add to data
 today <- Sys.Date()
 
 
