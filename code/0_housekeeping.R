@@ -21,7 +21,6 @@ file_name <- "/Scotland_R079_"
 YYMM <- 202208 # current year and month to add to data
 today <- Sys.Date()
 
-# test
 
 
 
