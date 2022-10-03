@@ -21,20 +21,25 @@ library(forcats)
 library(ggplot2)
 library(tidylog)
 library(openxlsx)
+library(here)
 
 
 ## Pathways
 rm(list = ls())
-wd <-paste0("/PHI_conf/CancerGroup1/Topics/BreastScreening/Investigations",
-            "/20201203-Breast-Screening-NSOB-Restart-Metrics")
-source(paste0(wd, "/SBSP_restartMetrics/code/0_housekeeping.R"))
+source(here("code/0_housekeeping.R"))
 
 
 #### 2: Import data ####
 ## Full records (Jan 2018 - most recent month)
-full_db <- read_rds(paste0(wd, "/Output/SBSS_R079_complete.rds"))
+full_db <- read_rds(paste0(proj_folder,"/Output/SBSS_R079_complete.rds"))
+# save a backup of full_db
+write_rds(full_db, paste0(proj_folder, "/Output/SBSS_R079_complete_bckp.rds"))
+# and change permissions to give the group read/write
+Sys.chmod(paste0(proj_folder, "/Output/SBSS_R079_complete_bckp.rds"),
+          mode = "664", use_umask = FALSE)
+
 ## current month's records
-current <- read_csv(paste0(root, file_name, YYMM, ".csv"))
+current <- read_csv(paste0(r079_path, file_name, YYMM, ".csv"))
 
 ## Define start date for each month -- this is just 1st of the month
 current %<>%
@@ -62,9 +67,10 @@ ggplot(date_check, aes(x = WorklistDate)) +
   geom_histogram(binwidth = 20)
 
 
-## Write out complete db for a back-up copy
-write_rds(new_db, paste0(wd, "/Output/SBSS_R079_complete.rds"))
-
+write_rds(new_db, paste0(proj_folder, "/Output/SBSS_R079_complete.rds"))
+# and change permissions to give the group read/write
+Sys.chmod(paste0(proj_folder, "/Output/SBSS_R079_complete.rds"),
+          mode = "664", use_umask = FALSE)
 
 #### 3: Set up counts ####
 ## Create month counts by centres
@@ -146,11 +152,21 @@ attended <- left_join(attended, sum_att)
 ## Rejoin counts by stacking
 full_metrics <- bind_rows(allocated, attended)
 
-## Save
-saveRDS(full_metrics, paste0(wd, "/Output/SBSS_R079_counts.rds"))
+## Save full_metrics
+# create backup
+full_metrics_bckp <- read_rds(paste0(proj_folder,
+                                     "/Output/SBSS_R079_counts.rds"))
+write_rds(full_metrics_bckp, paste0(proj_folder,
+                                    "/Output/SBSS_R079_counts_bckp.rds"))
+Sys.chmod(paste0(proj_folder, "/Output/SBSS_R079_counts_bckp.rds"),
+          mode = "664", use_umask = FALSE)
+
+write_rds(full_metrics, paste0(proj_folder,
+                               "/Output/SBSS_R079_counts.rds"))
 
 rm(allocated, attended, counts, counts_scot, current, 
-   full_db, new_db, sum, sum_all, sum_att, date_check)
+   full_db, full_metrics_bckp, new_db, sum, sum_all,
+   sum_att, date_check)
 
 
 #### 4: Set up data for Excel ####
@@ -191,26 +207,29 @@ hist_1819 %<>%
 ## Scotland
 scot <- full_metrics %>%
   filter(BSCName == "Scotland") %>% 
-  select(-c(BSCName:`Jul-2020`)) %>% 
+  select(-c(BSCName:`Jul-2020`, Total)) %>% 
+  mutate(Total = rowSums(across(where(is.numeric)))) %>%
   glimpse
 
 ## Centres--Allocated
 allocated <- full_metrics %>%
   filter(BSCName != "Scotland",
          appt_type == "allocated") %>%
-  select(-c(BSCName:`Jul-2020`)) %>% 
+  select(-c(BSCName:`Jul-2020`, Total)) %>%
+  mutate(Total = rowSums(across(where(is.numeric)))) %>%
   glimpse
 
 ## Centres--Attended
 attended <- full_metrics %>%
   filter(BSCName != "Scotland",
          appt_type == "attended") %>%
-  select(-c(BSCName:`Jul-2020`)) %>% 
+  select(-c(BSCName:`Jul-2020`, Total)) %>% 
+  mutate(Total = rowSums(across(where(is.numeric)))) %>%
   glimpse
 
 
 #### 5: Write to Excel ####
-wb <- loadWorkbook(paste0(wd, "/Output/NSOB Recovery Metrics Breast Screening_temp.xlsx"))
+wb <- loadWorkbook(paste0(proj_folder, "/Output/NSOB Recovery Metrics Breast Screening_temp.xlsx"))
 
 ### July 2020 to current ----
 writeData(wb, sheet = "Br - Attendances", scot, 
@@ -234,7 +253,7 @@ writeData(wb, sheet = "Br - Historical Attendances", paste0("Updated ", today),
 
 
 ### Save ----
-saveWorkbook(wb, paste0(wd, 
+saveWorkbook(wb, paste0(proj_folder, 
                         "/Output/NSOB Recovery Metrics Breast Screening_", 
                         YYMM, ".xlsx"),
              overwrite = T)
