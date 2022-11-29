@@ -21,16 +21,15 @@ library(forcats)
 library(ggplot2)
 library(tidylog)
 library(openxlsx)
-library(here)
 
 
 ## Pathways
 rm(list = ls())
-source(here("code/0_housekeeping.R"))
+source(here::here("code/0_housekeeping.R"))
 
 
 #### 2: Import data ####
-## Full records (Jan 2018 - most recent month)
+## Full records (Jan 2018 to most recent month)
 full_db <- read_rds(paste0(proj_folder,"/Output/SBSS_R079_complete.rds"))
 # save a backup of full_db
 write_rds(full_db, paste0(proj_folder, "/Output/SBSS_R079_complete_bckp.rds"))
@@ -233,11 +232,11 @@ wb <- loadWorkbook(paste0(proj_folder, "/Output/NSOB Recovery Metrics Breast Scr
 
 ### July 2020 to current ----
 writeData(wb, sheet = "Br - Attendances", scot, 
-          startCol = "B", startRow = 1, colNames = T)
+          startCol = "B", startRow = 1, colNames = TRUE)
 writeData(wb, sheet = "Br - Attendances", allocated, 
-          startCol = "B", startRow = 13, colNames = T)
+          startCol = "B", startRow = 13, colNames = TRUE)
 writeData(wb, sheet = "Br - Attendances", attended, 
-          startCol = "B", startRow = 22, colNames = T)
+          startCol = "B", startRow = 22, colNames = TRUE)
 
 # ### Historical average (2018/19) ---
 # uncomment below to add historic loop months to historic average (2018/19)
@@ -256,4 +255,4 @@ writeData(wb, sheet = "Br - Historical Attendances", paste0("Updated ", today),
 saveWorkbook(wb, paste0(proj_folder, 
                         "/Output/NSOB Recovery Metrics Breast Screening_", 
                         YYMM, ".xlsx"),
-             overwrite = T)
+             overwrite = TRUE)
