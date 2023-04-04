@@ -2,12 +2,12 @@
 # 1_R079_process.R
 # Karen Hotopp
 # 26/08/2022
-# Script 1 of 2
+# Script 2 of 2
 # Call in new monthly R079 .csv file, add to historic R079 database,
 # create counts of allocated v attended appointments, and write
 # to Excel file.
-# Written/run on R Studio Server
-# R version 3.6.1
+# Written on R Studio Server; run on Posit
+# R version 4.1.2
 ##########################################################
 
 
@@ -162,6 +162,8 @@ Sys.chmod(paste0(proj_folder, "/Output/SBSS_R079_counts_bckp.rds"),
 
 write_rds(full_metrics, paste0(proj_folder,
                                "/Output/SBSS_R079_counts.rds"))
+Sys.chmod(paste0(proj_folder, "/Output/SBSS_R079_counts.rds"),
+          mode = "664", use_umask = FALSE)
 
 rm(allocated, attended, counts, counts_scot, current, 
    full_db, full_metrics_bckp, new_db, sum, sum_all,
