@@ -3,9 +3,9 @@
 # Karen Hotopp
 # 18/02/2022
 # Updated August 2022
-# Script 1 of 2
+# Script 1 of 3
 # Define some housekeeping variables used by subsequent scripts
-# Written on R Studio Server; run on Posit
+# Written on R Studio Server; run on Posit WB
 # R version 4.1.2
 ##########################################################
 
@@ -18,11 +18,7 @@ r079_path <- paste0("/PHI_conf/CancerGroup1/Topics/BreastScreening/Investigation
                     "/Weekly Appts Reports/Invite Screen Reports/R079")
 
 file_name <- "/Scotland_R079_"
-YYMM <- 202303 # current year and month to add to data
+YYMM <- 202304 # current year and month to add to data
 today <- Sys.Date()
-
-
-
-
 
 

@@ -2,11 +2,11 @@
 # 1_R079_process.R
 # Karen Hotopp
 # 26/08/2022
-# Script 2 of 2
+# Script 2 of 3
 # Call in new monthly R079 .csv file, add to historic R079 database,
 # create counts of allocated v attended appointments, and write
 # to Excel file.
-# Written on R Studio Server; run on Posit
+# Written on R Studio Server; run on Posit WB
 # R version 4.1.2
 ##########################################################
 
@@ -56,7 +56,7 @@ new_db <- bind_rows(full_db, current) %>%
 ## Check for duplication
 table(new_db$start_date) # current month should match `current` obs.
 ggplot(new_db, aes(x = WorklistDate)) +
-  geom_histogram()
+  geom_histogram(binwidth = 24)
 
 ## Check any dates that look odd from visual inspection
 date_check <- new_db %>%
@@ -230,7 +230,8 @@ attended <- full_metrics %>%
 
 
 #### 5: Write to Excel ####
-wb <- loadWorkbook(paste0(proj_folder, "/Output/NSOB Recovery Metrics Breast Screening_temp.xlsx"))
+wb <- loadWorkbook(paste0(proj_folder, 
+                          "/Output/NSOB Recovery Metrics Breast Screening_temp.xlsx"))
 
 ### July 2020 to current ----
 writeData(wb, sheet = "Br - Attendances", scot, 
