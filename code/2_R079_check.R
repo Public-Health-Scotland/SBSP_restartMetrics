@@ -132,7 +132,7 @@ rm(allocated, attended, counts, counts_scot, current,
 ## Scotland
 scot <- full_metrics %>%
   filter(BSCName == "Scotland") %>% 
-  select(-c(BSCName:`Jul-2020`, Total)) %>% 
+  select(-c(`Jan-2018`:`Jul-2020`, Total)) %>% 
   mutate(Total = rowSums(across(where(is.numeric)))) %>%
   glimpse
 
@@ -140,7 +140,7 @@ scot <- full_metrics %>%
 allocated <- full_metrics %>%
   filter(BSCName != "Scotland",
          appt_type == "allocated") %>%
-  select(-c(BSCName:`Jul-2020`, Total)) %>%
+  select(-c(`Jan-2018`:`Jul-2020`, Total)) %>%
   mutate(Total = rowSums(across(where(is.numeric)))) %>%
   glimpse
 
@@ -148,15 +148,20 @@ allocated <- full_metrics %>%
 attended <- full_metrics %>%
   filter(BSCName != "Scotland",
          appt_type == "attended") %>%
-  select(-c(BSCName:`Jul-2020`, Total)) %>% 
+  select(-c(`Jan-2018`:`Jul-2020`, Total)) %>% 
   mutate(Total = rowSums(across(where(is.numeric)))) %>%
   glimpse
 
-rm(scot, full_metrics)
+rm(full_metrics)
 
 #### 5: Check against Excel output ####
 ## Only the most recent data month and totals need to be compared.
 # Check that the `attended` and `allocated` outputs match the entries on
 # `Br - Attendances` tab of the Excel file. Uptake and historical comparisons
 # are calculated automatically within Excel.
+
+View(scot)
+View(allocated)
+View(attended)
+
 
