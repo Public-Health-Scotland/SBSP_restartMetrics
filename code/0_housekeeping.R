@@ -18,7 +18,7 @@ r079_path <- paste0("/PHI_conf/CancerGroup1/Topics/BreastScreening/Investigation
                     "/Weekly Appts Reports/Invite Screen Reports/R079")
 
 file_name <- "/Scotland_R079_"
-YYMM <- 202306 # current year and month to add to data
+YYMM <- 202307 # current year and month to add to data
 today <- Sys.Date()
 
 
